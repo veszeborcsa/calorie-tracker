@@ -5,7 +5,7 @@
  * Uses a cache-first strategy for static assets and network-first for dynamic content.
  */
 
-const CACHE_NAME = 'calorieflow-v1';
+const CACHE_NAME = 'calorieflow-v2';
 
 // Assets to cache for offline use
 const ASSETS_TO_CACHE = [
