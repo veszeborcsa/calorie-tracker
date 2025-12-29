@@ -2,76 +2,91 @@
     "name": "CalorieFlow - Track Your Nutrition",
     "short_name": "CalorieFlow",
     "description": "Track your daily calories, monitor weight changes, and manage recipes",
-    "start_url": "/",
+    "start_url": "./index.html",
+    "scope": "./",
     "display": "standalone",
     "background_color": "#0a0a0f",
     "theme_color": "#8b5cf6",
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "icons/icon-72.png",
+            "src": "./icons/icon-72.png",
             "sizes": "72x72",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-96.png",
+            "src": "./icons/icon-96.png",
             "sizes": "96x96",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-128.png",
+            "src": "./icons/icon-128.png",
             "sizes": "128x128",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-144.png",
+            "src": "./icons/icon-144.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-152.png",
+            "src": "./icons/icon-152.png",
             "sizes": "152x152",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-192.png",
+            "src": "./icons/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-384.png",
+            "src": "./icons/icon-384.png",
             "sizes": "384x384",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "icons/icon-512.png",
+            "src": "./icons/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
         }
     ],
-    "categories": ["health", "fitness", "lifestyle"],
+    "categories": [
+        "health",
+        "fitness",
+        "lifestyle"
+    ],
     "shortcuts": [
         {
             "name": "Add Food",
             "short_name": "Add Food",
             "description": "Quickly add a food entry",
-            "url": "/?view=dashboard",
-            "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+            "url": "./index.html",
+            "icons": [
+                {
+                    "src": "./icons/icon-96.png",
+                    "sizes": "96x96"
+                }
+            ]
         },
         {
             "name": "Log Weight",
             "short_name": "Weight",
             "description": "Log your weight",
-            "url": "/?view=weight",
-            "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+            "url": "./index.html",
+            "icons": [
+                {
+                    "src": "./icons/icon-96.png",
+                    "sizes": "96x96"
+                }
+            ]
         }
     ]
 }
