@@ -127,9 +127,10 @@
                             <div class="form-row">
                                 <input type="text" id="food-name" placeholder="Food name" required>
                             </div>
-                            <div class="form-row double">
-                                <input type="text" id="food-quantity" placeholder="Quantity (e.g., 100g)">
+                            <div class="form-row triple">
+                                <input type="text" id="food-quantity" placeholder="Qty (e.g., 100g)">
                                 <input type="number" id="food-calories" placeholder="Calories" required>
+                                <input type="number" id="food-protein" placeholder="Protein (g)">
                             </div>
                             <button type="submit" class="btn btn-primary">
                                 <span>+ Add Food</span>
@@ -161,22 +162,27 @@
                 <div class="card">
                     <div class="log-summary">
                         <div class="log-total">
-                            <span class="label">Total Calories:</span>
+                            <span class="label">Calories:</span>
                             <span class="value" id="log-total-calories">0 kcal</span>
+                        </div>
+                        <div class="log-total">
+                            <span class="label">Protein:</span>
+                            <span class="value" id="log-total-protein">0 g</span>
                         </div>
                     </div>
                     <table class="food-table">
                         <thead>
                             <tr>
                                 <th>Food</th>
-                                <th>Quantity</th>
-                                <th>Calories</th>
+                                <th>Qty</th>
+                                <th>Cal</th>
+                                <th>Protein</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="food-log-body">
                             <tr class="empty-row">
-                                <td colspan="4">No entries for this date</td>
+                                <td colspan="5">No entries for this date</td>
                             </tr>
                         </tbody>
                     </table>
@@ -197,6 +203,10 @@
                         <div class="form-group">
                             <label for="add-food-calories">Calories</label>
                             <input type="number" id="add-food-calories" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-food-protein">Protein (g)</label>
+                            <input type="number" id="add-food-protein" placeholder="Optional">
                         </div>
                         <button type="submit" class="btn btn-primary">Add Entry</button>
                     </form>

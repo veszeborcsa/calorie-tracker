@@ -148,14 +148,17 @@ const App = {
         }
 
         // Generate HTML for each entry using template literals
-        // Each entry shows food name, quantity, calories, and a delete button
+        // Each entry shows food name, quantity, calories, protein, and a delete button
         list.innerHTML = entries.map(e => `
             <li>
                 <div class="food-info">
                     <span class="food-name">${e.name}</span>
                     <span class="food-quantity">${e.quantity || ''}</span>
                 </div>
-                <span class="food-calories">${e.calories} kcal</span>
+                <div class="food-macros">
+                    <span class="food-calories">${e.calories} kcal</span>
+                    <span class="food-protein">${e.protein || 0}g protein</span>
+                </div>
                 <div class="food-actions">
                     <button onclick="App.deleteFood('${e.id}')" title="Delete">🗑️</button>
                 </div>
@@ -183,6 +186,7 @@ const App = {
                 name: Utils.$('#food-name').value,
                 quantity: Utils.$('#food-quantity').value,
                 calories: parseInt(Utils.$('#food-calories').value),
+                protein: parseInt(Utils.$('#food-protein').value) || 0,
                 date: Utils.getToday()  // Always use today's date for quick add
             };
 
@@ -200,6 +204,7 @@ const App = {
                 name: Utils.$('#add-food-name').value,
                 quantity: Utils.$('#add-food-quantity').value,
                 calories: parseInt(Utils.$('#add-food-calories').value),
+                protein: parseInt(Utils.$('#add-food-protein').value) || 0,
                 date: this.currentLogDate  // Use the selected date, not today
             };
 
@@ -332,16 +337,18 @@ const App = {
      */
     updateFoodLog() {
         const entries = Storage.getFoodEntriesByDate(this.currentLogDate);
-        const total = Utils.calculateTotalCalories(entries);
+        const totalCalories = Utils.calculateTotalCalories(entries);
+        const totalProtein = entries.reduce((sum, e) => sum + (parseInt(e.protein) || 0), 0);
 
-        // Update the total calories display
-        Utils.$('#log-total-calories').textContent = `${Utils.formatNumber(total)} kcal`;
+        // Update the totals display
+        Utils.$('#log-total-calories').textContent = `${Utils.formatNumber(totalCalories)} kcal`;
+        Utils.$('#log-total-protein').textContent = `${totalProtein} g`;
 
         const tbody = Utils.$('#food-log-body');
 
         // Show empty state if no entries
         if (entries.length === 0) {
-            tbody.innerHTML = '<tr class="empty-row"><td colspan="4">No entries for this date</td></tr>';
+            tbody.innerHTML = '<tr class="empty-row"><td colspan="5">No entries for this date</td></tr>';
             return;
         }
 
@@ -351,6 +358,7 @@ const App = {
                 <td>${e.name}</td>
                 <td>${e.quantity || '-'}</td>
                 <td>${e.calories} kcal</td>
+                <td>${e.protein || 0}g</td>
                 <td>
                     <button class="btn btn-sm btn-danger" onclick="App.deleteFood('${e.id}')">Delete</button>
                 </td>

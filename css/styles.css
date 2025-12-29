@@ -505,6 +505,12 @@ body::before {
     gap: var(--spacing-md);
 }
 
+.form-row.triple {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-sm);
+}
+
 .form-group {
     margin-bottom: var(--spacing-lg);
 }
@@ -656,7 +662,19 @@ textarea {
 .food-calories {
     font-weight: 600;
     color: var(--accent-primary);
+}
+
+.food-macros {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
     margin-right: var(--spacing-md);
+}
+
+.food-protein {
+    font-size: 0.8rem;
+    color: var(--success);
 }
 
 .food-actions {
