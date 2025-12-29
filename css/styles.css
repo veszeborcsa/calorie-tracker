@@ -1026,18 +1026,65 @@ textarea {
 
     /* Food table mobile adjustments */
     .food-table {
-        font-size: 0.875rem;
+        font-size: 0.75rem;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .food-table thead,
+    .food-table tbody,
+    .food-table tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
     }
 
     .food-table th,
     .food-table td {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 
-    /* Hide some columns on mobile */
+    .food-table th:nth-child(1),
+    .food-table td:nth-child(1) {
+        width: 35%;
+    }
+
     .food-table th:nth-child(2),
     .food-table td:nth-child(2) {
-        display: none;
+        width: 20%;
+    }
+
+    .food-table th:nth-child(3),
+    .food-table td:nth-child(3) {
+        width: 25%;
+    }
+
+    .food-table th:nth-child(4),
+    .food-table td:nth-child(4) {
+        width: 20%;
+    }
+
+    .food-table .btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+
+    /* Log summary on mobile */
+    .log-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+
+    .log-total {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .log-total .value {
+        font-size: 1.1rem;
     }
 
     /* Date picker adjustments */
