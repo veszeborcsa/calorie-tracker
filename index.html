@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CalorieFlow - Track Your Nutrition</title>
+    <meta name="description"
+        content="Track your daily calories, monitor weight changes, and manage recipes with CalorieFlow">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CalorieFlow">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- App Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🔥</div>
+                <span class="logo-text">CalorieFlow</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </li>
+                <li class="nav-item" data-view="food-log">
+                    <span class="nav-icon">🍽️</span>
+                    <span class="nav-text">Food Log</span>
+                </li>
+                <li class="nav-item" data-view="weight">
+                    <span class="nav-icon">⚖️</span>
+                    <span class="nav-text">Weight</span>
+                </li>
+                <li class="nav-item" data-view="analytics">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Analytics</span>
+                </li>
+                <li class="nav-item" data-view="recipes">
+                    <span class="nav-icon">📖</span>
+                    <span class="nav-text">Recipes</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <section id="dashboard" class="view active">
+                <header class="view-header">
+                    <h1>Dashboard</h1>
+                    <p class="date-display" id="current-date"></p>
+                </header>
+
+                <div class="dashboard-grid">
+                    <!-- Today's Summary Card -->
+                    <div class="card summary-card">
+                        <h3>Today's Calories</h3>
+                        <div class="calorie-display">
+                            <span class="calorie-value" id="today-calories">0</span>
+                            <span class="calorie-unit">kcal</span>
+                        </div>
+                        <div class="calorie-goal">
+                            <div class="goal-bar">
+                                <div class="goal-progress" id="calorie-progress"></div>
+                            </div>
+                            <span class="goal-text">Goal: <span id="calorie-goal">2000</span> kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Current Weight Card -->
+                    <div class="card weight-card">
+                        <h3>Current Weight</h3>
+                        <div class="weight-display">
+                            <span class="weight-value" id="current-weight">--</span>
+                            <span class="weight-unit">kg</span>
+                        </div>
+                        <p class="weight-change" id="weight-change"></p>
+                    </div>
+
+                    <!-- Quick Add Food Card -->
+                    <div class="card quick-add-card">
+                        <h3>Quick Add Food</h3>
+                        <form id="quick-add-form" class="quick-add-form">
+                            <div class="form-row">
+                                <input type="text" id="food-name" placeholder="Food name" required>
+                            </div>
+                            <div class="form-row double">
+                                <input type="text" id="food-quantity" placeholder="Quantity (e.g., 100g)">
+                                <input type="number" id="food-calories" placeholder="Calories" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span>+ Add Food</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Recent Entries Card -->
+                    <div class="card recent-card">
+                        <h3>Today's Entries</h3>
+                        <ul class="food-list" id="today-entries">
+                            <li class="empty-state">No food entries yet today</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Food Log View -->
+            <section id="food-log" class="view">
+                <header class="view-header">
+                    <h1>Food Log</h1>
+                    <div class="date-picker">
+                        <button class="btn btn-icon" id="prev-day">◀</button>
+                        <input type="date" id="log-date">
+                        <button class="btn btn-icon" id="next-day">▶</button>
+                    </div>
+                </header>
+
+                <div class="card">
+                    <div class="log-summary">
+                        <div class="log-total">
+                            <span class="label">Total Calories:</span>
+                            <span class="value" id="log-total-calories">0 kcal</span>
+                        </div>
+                    </div>
+                    <table class="food-table">
+                        <thead>
+                            <tr>
+                                <th>Food</th>
+                                <th>Quantity</th>
+                                <th>Calories</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="food-log-body">
+                            <tr class="empty-row">
+                                <td colspan="4">No entries for this date</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Food Form -->
+                <div class="card">
+                    <h3>Add Food Entry</h3>
+                    <form id="add-food-form" class="add-food-form">
+                        <div class="form-group">
+                            <label for="add-food-name">Food Name</label>
+                            <input type="text" id="add-food-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-food-quantity">Quantity</label>
+                            <input type="text" id="add-food-quantity" placeholder="e.g., 150g, 1 cup">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-food-calories">Calories</label>
+                            <input type="number" id="add-food-calories" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Entry</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Weight View -->
+            <section id="weight" class="view">
+                <header class="view-header">
+                    <h1>Weight Tracker</h1>
+                </header>
+
+                <div class="weight-grid">
+                    <div class="card">
+                        <h3>Log Weight</h3>
+                        <form id="weight-form" class="weight-form">
+                            <div class="form-group">
+                                <label for="weight-date">Date</label>
+                                <input type="date" id="weight-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="weight-value">Weight (kg)</label>
+                                <input type="number" id="weight-value" step="0.1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Log Weight</button>
+                        </form>
+                    </div>
+
+                    <div class="card chart-card">
+                        <h3>Weight Trend</h3>
+                        <div class="chart-container">
+                            <canvas id="weight-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Weight History</h3>
+                        <ul class="weight-list" id="weight-history">
+                            <li class="empty-state">No weight entries yet</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="analytics" class="view">
+                <header class="view-header">
+                    <h1>Analytics</h1>
+                </header>
+
+                <div class="analytics-grid">
+                    <div class="card">
+                        <h3>Weekly Summary</h3>
+                        <div class="stats-row">
+                            <div class="stat">
+                                <span class="stat-value" id="weekly-total">0</span>
+                                <span class="stat-label">Total kcal</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="weekly-avg">0</span>
+                                <span class="stat-label">Daily Avg</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="weekly-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Monthly Summary</h3>
+                        <div class="stats-row">
+                            <div class="stat">
+                                <span class="stat-value" id="monthly-total">0</span>
+                                <span class="stat-label">Total kcal</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="monthly-avg">0</span>
+                                <span class="stat-label">Daily Avg</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="monthly-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recipes View -->
+            <section id="recipes" class="view">
+                <header class="view-header">
+                    <h1>Recipes</h1>
+                    <button class="btn btn-primary" id="add-recipe-btn">+ New Recipe</button>
+                </header>
+
+                <div class="recipes-grid" id="recipes-grid">
+                    <div class="empty-state-large">
+                        <span class="empty-icon">📖</span>
+                        <p>No recipes yet. Create your first recipe!</p>
+                    </div>
+                </div>
+
+                <!-- Recipe Modal -->
+                <div class="modal" id="recipe-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="modal-title">New Recipe</h2>
+                            <button class="btn-close" id="close-modal">×</button>
+                        </div>
+                        <form id="recipe-form">
+                            <div class="form-group">
+                                <label for="recipe-name">Recipe Name</label>
+                                <input type="text" id="recipe-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipe-calories">Total Calories</label>
+                                <input type="number" id="recipe-calories">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipe-ingredients">Ingredients</label>
+                                <textarea id="recipe-ingredients" rows="4"
+                                    placeholder="One ingredient per line"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipe-instructions">Instructions</label>
+                                <textarea id="recipe-instructions" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipe-image">Photo (optional)</label>
+                                <input type="file" id="recipe-image" accept="image/*">
+                                <div class="image-preview" id="image-preview"></div>
+                            </div>
+                            <input type="hidden" id="recipe-id">
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancel-recipe">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Recipe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recipe View Modal -->
+                <div class="modal" id="recipe-view-modal">
+                    <div class="modal-content recipe-view-content">
+                        <button class="btn-close" id="close-view-modal">×</button>
+                        <div id="recipe-view-body"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Service Worker Registration for PWA -->
+    <script>
+        // Register service worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>
