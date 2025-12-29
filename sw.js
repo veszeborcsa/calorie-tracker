@@ -13,6 +13,7 @@ const ASSETS_TO_CACHE = [
     '/index.html',
     '/css/styles.css',
     '/js/app.js',
+    '/js/auth.js',
     '/js/charts.js',
     '/js/storage.js',
     '/js/utils.js',

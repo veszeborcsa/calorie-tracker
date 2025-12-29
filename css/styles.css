@@ -49,6 +49,99 @@
     --shadow-glow: 0 0 30px var(--accent-glow);
 }
 
+/* ===== Lock Screen ===== */
+.lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.lock-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.lock-container {
+    position: relative;
+    text-align: center;
+    padding: var(--spacing-2xl);
+    max-width: 350px;
+    width: 90%;
+}
+
+.lock-logo {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.lock-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-xl);
+}
+
+.lock-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.95rem;
+}
+
+.pin-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.pin-form input {
+    text-align: center;
+    font-size: 1.25rem;
+    letter-spacing: 0.5em;
+    padding: var(--spacing-lg);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+}
+
+.pin-form input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.btn-block {
+    width: 100%;
+    padding: var(--spacing-lg);
+    font-size: 1rem;
+    margin-top: var(--spacing-sm);
+}
+
+.error-text {
+    color: var(--danger);
+    font-size: 0.875rem;
+    min-height: 1.25rem;
+}
+
 /* ===== Reset & Base Styles ===== */
 *,
 *::before,

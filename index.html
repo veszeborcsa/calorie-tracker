@@ -28,7 +28,33 @@
 </head>
 
 <body>
-    <div class="app-container">
+    <!-- PIN Lock Screen -->
+    <div id="lock-screen" class="lock-screen">
+        <div class="lock-container">
+            <div class="lock-logo">🔥</div>
+            <h1 class="lock-title">CalorieFlow</h1>
+
+            <!-- PIN Setup (first time) -->
+            <div id="pin-setup" class="pin-form" style="display: none;">
+                <p class="lock-subtitle">Create a PIN to protect your data</p>
+                <input type="password" id="new-pin" placeholder="Enter PIN (min 4 digits)" maxlength="10"
+                    inputmode="numeric">
+                <input type="password" id="confirm-pin" placeholder="Confirm PIN" maxlength="10" inputmode="numeric">
+                <button id="setup-pin-btn" class="btn btn-primary btn-block">Set PIN</button>
+                <p id="setup-error" class="error-text"></p>
+            </div>
+
+            <!-- PIN Unlock -->
+            <div id="pin-unlock" class="pin-form" style="display: none;">
+                <p class="lock-subtitle">Enter your PIN to continue</p>
+                <input type="password" id="enter-pin" placeholder="Enter PIN" maxlength="10" inputmode="numeric">
+                <button id="unlock-btn" class="btn btn-primary btn-block">Unlock</button>
+                <p id="unlock-error" class="error-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container" style="display: none;">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <div class="logo">
@@ -325,7 +351,81 @@
     <script src="js/storage.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
+
+    <!-- PIN Lock & App Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lockScreen = document.getElementById('lock-screen');
+            const appContainer = document.querySelector('.app-container');
+            const pinSetup = document.getElementById('pin-setup');
+            const pinUnlock = document.getElementById('pin-unlock');
+
+            // Check if already authenticated this session
+            if (Auth.isAuthenticated()) {
+                lockScreen.style.display = 'none';
+                appContainer.style.display = 'flex';
+                App.init();
+                return;
+            }
+
+            // Show appropriate form
+            if (Auth.isPinSet()) {
+                pinUnlock.style.display = 'flex';
+            } else {
+                pinSetup.style.display = 'flex';
+            }
+
+            // Setup PIN handler
+            document.getElementById('setup-pin-btn').addEventListener('click', () => {
+                const newPin = document.getElementById('new-pin').value;
+                const confirmPin = document.getElementById('confirm-pin').value;
+                const errorEl = document.getElementById('setup-error');
+
+                if (newPin.length < 4) {
+                    errorEl.textContent = 'PIN must be at least 4 characters';
+                    return;
+                }
+
+                if (newPin !== confirmPin) {
+                    errorEl.textContent = 'PINs do not match';
+                    return;
+                }
+
+                Auth.setPin(newPin);
+                Auth.authenticate();
+                lockScreen.style.display = 'none';
+                appContainer.style.display = 'flex';
+                App.init();
+            });
+
+            // Unlock handler
+            document.getElementById('unlock-btn').addEventListener('click', () => {
+                const pin = document.getElementById('enter-pin').value;
+                const errorEl = document.getElementById('unlock-error');
+
+                if (Auth.verifyPin(pin)) {
+                    Auth.authenticate();
+                    lockScreen.style.display = 'none';
+                    appContainer.style.display = 'flex';
+                    App.init();
+                } else {
+                    errorEl.textContent = 'Incorrect PIN';
+                    document.getElementById('enter-pin').value = '';
+                }
+            });
+
+            // Allow Enter key to submit
+            document.getElementById('enter-pin').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') document.getElementById('unlock-btn').click();
+            });
+
+            document.getElementById('confirm-pin').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') document.getElementById('setup-pin-btn').click();
+            });
+        });
+    </script>
 
     <!-- Service Worker Registration for PWA -->
     <script>
